@@ -7,14 +7,12 @@ data = [ [int(s) for s in l.replace("\n","").split()] for l in open("myinput","r
 
 
 def valid(d, second = False):
-    print(d)
     return (max(np.abs(np.diff(d))) <= 3) and (min(np.abs(np.diff(d))) >= 1) and ((np.sum(np.diff(d) > 0) == len(d)-1) or (np.sum(np.diff(d) < 0) == len(d)-1))
 
 
 valids = []
 for d in data:
     if not valid(d):
-        print(d)
         for i in range(len(d)):
             newd = list(d)
             newd.pop(i)
