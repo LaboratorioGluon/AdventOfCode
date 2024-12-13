@@ -1,3 +1,7 @@
+import datetime
+
+startTime = datetime.datetime.now()
+
 mapa = [list(l.replace("\n","")) for l in open("myinput").readlines()]
 for r in range(len(mapa)):
     for c in range(len(mapa)):
@@ -58,5 +62,7 @@ for r in range(len(mapa)):
             scoresB += len(ret)
             scores += len(set(ret))
 
+b = datetime.datetime.now()
 print(f"Result: {scores}")
 print(f"ResultB: {scoresB}")
+print(f"Time: {(b-startTime).microseconds}")
