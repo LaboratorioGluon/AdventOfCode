@@ -1,4 +1,7 @@
 import re
+import numpy as np
+from PIL import Image
+
 
 LEN_X = 101
 LEN_Y = 103
@@ -10,19 +13,6 @@ for l in open("myinput").readlines():
     pos = (int(res.group(1)), int(res.group(2)))
     vel = (int(res.group(3)), int(res.group(4)))
     robots.append((pos, vel))
-
-def debugPrint(m):
-    print("  ", end="")
-    for i in range(len(m[0])):
-        print(str(i) + "", end="")
-    print()
-    cnt = 0
-    for i in m:
-        print(str(cnt)+"", end = "")
-        cnt += 1
-        for j in i:
-            print(str(j)+ "", end="")
-        print()
 
 
 def getRobotPos(robot, secs):
@@ -40,24 +30,20 @@ quadrants = {
 
 midX = LEN_X//2
 midY = LEN_Y//2
-print(midX)
-print(midY)
-mapa = []
-for y in range(LEN_Y):
-    mapa.append([])
-    for x in range(LEN_X):
-        mapa[y].append(' ')
 
 OFFSET = 7000
+img = Image.new( 'L', (LEN_X, LEN_Y))
+mapa = np.array(img)
 for i in range(1000):
     for y in range(LEN_Y):
         for x in range(LEN_X):
-            mapa[y][x] = " "
+            mapa[y][x] = 0
     for r in robots:
-        p = getRobotPos(r, i+7000)
-        mapa[p[1]][p[0]] = "#"
-    debugPrint(mapa)
-    print(i+7000)
+        p = getRobotPos(r, i+OFFSET)
+        mapa[p[1]][p[0]] = 255
+    
+    Image.fromarray(mapa).save(f'images/day14-{i+OFFSET}.png')
+    print(i+OFFSET)
 
 
 safety = 1
